@@ -1,0 +1,7 @@
+Следующая последовательность команд добавит пользователя username с паролем password, который сможет подключиться к базе данных db с любого адреса и работать с таблицей table. Обратите внимание, что на месте db и table можно написать звездочки.
+[quote]
+CREATE USER '<username>'@'localhost' IDENTIFIED BY '<password>';
+GRANT ALL PRIVILEGES ON <db>.<table> TO '<username>'@'localhost';
+GRANT ALL PRIVILEGES ON <db>.<table> TO '<username>'@'%'
+FLUSH PRIVILEGES;
+[/quote]

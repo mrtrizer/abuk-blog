@@ -1,0 +1,348 @@
+body {
+
+}
+
+#main_pole {
+	width: 800px;
+	margin: 0 auto;
+	border-left: 1px solid #AAA;
+	border-right: 1px solid #AAA;
+	border-bottom: 1px solid #AAA;
+}
+
+#header {
+	height: 150px;
+	background: #B6E781;
+	margin: 0px;
+	position:relative;
+}
+
+#middle {
+	width: 100%;
+	padding: 0 0 0px;
+	position: relative;
+}
+#middle:after {
+	clear: both;
+	display: table;
+}
+
+#container {
+	width: 100%;
+	float: left;
+	background: White;
+}
+
+#content {
+	padding: 0 10px 0 10px;
+}
+
+#right_bar {
+	float: left;
+	width: 240px;
+	margin-left: -240px;
+	background: #F1FFE4;
+}
+
+#footer {
+	height: 20px;
+	background: #B6E781;
+	font-size: 14px;
+	clear: both;
+	padding: 10px;
+	text-align: right;
+}
+
+.article_block {
+	clear:both;
+	display:block;
+	margin-bottom: 10px;
+	margin-top: 20px;
+	overflow: auto;
+}
+
+p.article_about {
+	margin: 5px 10px 10px 0px;
+	text-indent: 20px;
+}
+
+a.read_more {
+	color: Green;
+	outline: none;
+	text-decoration: underline;
+	clear:left;
+	
+}
+
+a.read_more:hover {
+	text-decoration: none;
+}
+
+a.navigation_button {
+	display:inline-block;
+	height:25px;
+	text-align:center;
+	padding-top:3px;
+	padding-left:10px;
+	padding-right:10px;
+	color: #111;
+	text-decoration:none;
+	background-color: #CCEEA7;
+	border: 1px solid #AAA;
+}
+
+a.navigation_button:hover {
+	background-color: #F3FBEA;
+}
+
+h1.article_name {
+	margin-top:10px;
+	margin-bottom:8px;
+}
+
+div.header_block {
+	position:absolute;
+	display:block;
+}
+
+div#header_logo {
+	top:10px;
+	left:10px;
+}
+
+div#navigation_buttons {
+	top:123px;
+	left:10px;
+}
+
+div#login_buttons {
+	top:123px;
+	left:730px;
+}
+
+div#service_buttons {
+	top:123px;
+	left:670px;
+}
+
+div#user_info {
+	top:5px;
+	left:660px;
+	font-size:14px;
+}
+
+div#header_title {
+	top:55px;
+	left:85px;
+	font-size:40px;
+}
+
+div.dialog {
+	top:50%;
+	left:50%;
+	position:absolute;
+	display:block;
+	background-color:#EEE;
+	border:1px solid #DDD;
+}
+
+div#login_dialog #window {
+	width:300px;
+	height:200px;
+	margin-left:-150px;
+	margin-top:-100px;
+}
+
+div.dialog .field {
+	position:relative;
+	text-align:right;
+}
+
+div.dialog .wrong_value {
+	color: #F00;
+}
+
+div.dialog #title {
+	width:100%;
+	height:30px;
+	line-height:30px;
+	text-align:center;
+	vertical-align:middle;
+	padding-top:5px;
+	font-size:20px;
+	position:relative;
+}
+
+div.dialog .field#login_field {
+	left:10px;
+	top:30px;
+	width:260px;
+}
+
+div.dialog .field#password_field {
+	left:10px;
+	top:40px;
+	width:260px;
+}
+
+div.dialog .field#buttons_panel {
+	left:78px;
+	top:70px;
+	width:200px;
+	
+}
+
+div.button {
+	width:60px;
+	height:20px;
+	background-color:#CCEEA7;
+	border:1px solid #AAA;
+	padding-top:2px;
+	cursor:default;
+	float:left;
+	margin-left:10px;
+	text-align:center;
+}
+
+div.button:hover {
+	background-color: #F3FBEA;
+}
+
+div.background {
+	width:100%;
+	height:100%;
+	top:0px;
+	left:0px;
+	position:absolute;
+	display:block;
+	background-color:#000;
+	filter: alpha(opacity=40);
+	opacity: 0.4;
+}
+
+h1 {
+	font-family: Arial;
+	font-size: 20px;
+}
+
+.icon {
+	background-image:url('../../images/icons.png');
+	width:24px;
+	height:24px;
+	display:block;
+	float:left;
+	margin-left:10px;
+}
+
+.icon_hidden {
+	visibility:hidden;
+}
+
+.icon_success {
+	background-position: 0px;
+}
+
+.icon_error {
+	background-position: -24px;
+}
+
+.editor_textarea {
+	margin-top:10px;
+	margin-bottom:10px;
+}
+
+.article_editor .field {
+	position:absolute;
+}
+
+.editor_textarea {
+	display:block;
+	clear:both;
+	width:100%;
+}
+
+.controls_block .field#edit_controls_field {
+	left:670px;
+	width:110px;
+	height:25px;
+	
+}
+
+.article_editor .field#article_name_field {
+	width:500px;
+	top:3px;
+}
+
+.controls_block {
+	padding: 0px;
+	margin: 0px;
+	height:40px;
+	width:800px;
+	position:relative;
+	display:block;
+}
+
+.message_list {
+	margin-top:10px;
+	margin-bottom: 20px;
+	height:300px;
+	display:block;
+	overflow-y: scroll;
+}
+
+.message_list .message_block {
+	overflow:auto;
+	margin-bottom:10px;
+}
+
+.message_list .message_header {
+	color: blue;
+	font-weight: bold;
+}
+
+.message_enter_block .controls_block {
+	height:80px;
+}
+
+.controls_block .field {
+	position:absolute;
+}
+
+.controls_block .field#guest_name_field {
+	left: 0px;
+	top:10px;
+}
+
+.controls_block .field#guest_email_field {
+	left: 0px;
+	top:40px;
+}
+
+.controls_block .field#message_send_field {
+	left: 270px;
+	top:8px;
+}
+
+.square_img
+{
+	text-align:center;
+	width:100px;
+	height:100px;
+	margin-right:10px;
+	border: 1px solid #AAA;
+	float:left;
+}
+
+.square_img .inline_block {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.square_img img {
+    vertical-align: middle;
+    max-height: 100px;
+    max-width: 100px;
+    height:auto;
+    width:90px;
+}
