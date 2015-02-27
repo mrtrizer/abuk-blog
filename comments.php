@@ -6,15 +6,6 @@
 if ($context != 0)
 {
 
-	$result = mysql_query("SELECT id,name,text,email,date FROM message WHERE context=".$context,$link) or die('Ubable to get message list.');
-
-	$message_list = [];
-		
-	while ($row = mysql_fetch_array($result))
-		$message_list[] = ['id' => $row['id'], 'name' => urldecode($row['name']), 'text' => urldecode($row['text']), 'email' => $row['email'], 'date' => $row['date']];
-
-	$message_list = array_reverse($message_list);
-
 	include($style_path.'comments.php');
 
 //*********************************************************************
@@ -41,7 +32,7 @@ function sendMessage(context)
 function onSendSuccess(data)
 {
 	document.getElementById("send_status_icon").className = "icon icon_success";
-	addMessage(decodeURIComponent(data.name), data.email, decodeURIComponent(data.text), data.date);
+	loadComments(0);
 }
 
 function onSendError(errCode,errMsg)
@@ -69,6 +60,58 @@ function addMessage(name, email, text, date)
 	element.innerHTML = message + element.innerHTML;
 	
 }
+
+function showPortionSelector(portionCount, currentPortion)
+{
+	var element = document.getElementById("portion_list_<?=$context?>");
+	element.innerHTML = '';
+	for (var i = 0; i < portionCount; i++)
+	{
+		var color = "color2";
+		if (i == currentPortion)
+			color = "color1";
+		element.innerHTML += '<div class="portion_pointer ' + color + '" onclick="loadComments(' + i + ')">' + i + '</div> '
+	}
+}
+
+function loadComments(portion)
+{
+	client.sendRequest(
+		"getcomments", 
+		{
+			portion:portion,
+			context:<?=$context?>
+		},
+		"POST",
+		onLoadSuccess,
+		onLoadError
+		);
+}
+
+function onLoadSuccess(data)
+{
+	var element = document.getElementById("message_list_<?=$context?>");
+	element.innerHTML = "";
+	var messageList = data.message_list;
+	var portionCount = data.portion_count;
+	for (var i in messageList)
+	{
+		var message = messageList[i];
+		addMessage(decodeURIComponent(message.name), message.email, 
+						decodeURIComponent(message.text), message.date);
+	}
+	showPortionSelector(portionCount, data.portion);
+}
+
+function onLoadError(errCode,errMsg)
+{
+	var errStr = "Comment error.\nError code: " + errCode;
+	if (errMsg != "")
+		errStr += "\nError message: " + errMsg;
+	alert(errStr);
+}
+
+loadComments(0);
 
 </script>
 

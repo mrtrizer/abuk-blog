@@ -12,17 +12,11 @@
 			</div>
 		</div>
 	</div>
-	
+	<div class="portion_selector" id="portion_list_<?=$context?>">
+		
+	</div>
 	<div class="message_list" id="message_list_<?=$context?>">
-		<?php foreach ($message_list as $message): ?>
-		<div class="message_block">
-			<div class="message_header">
-				<div class="message_name"><?=$message['name']?> <?=(($user['rights']=='admin')?$message['email']:"")?></div>
-				<div class="message_date"><?=$message['date']?></div>
-			</div>
-			<div class="message_text"><?=$message['text']?></div>
-		</div>
-		<?php endforeach ?>
+
 	</div>
 	
 </div>

@@ -36,7 +36,7 @@ $user = NULL;
 if (isset($_COOKIE['key']) && (strlen($_COOKIE['key']) == 32)) 
 {
 	$key = htmlspecialchars($_COOKIE['key']);
-	$result = mysql_query("SELECT `id`, `key`, `email`, `name`, `rights` FROM `user` WHERE `key`=0x".$key, $link) or die('Unable to get a user.');
+	$result = mysql_query(sprintf("SELECT `id`, `key`, `email`, `name`, `rights` FROM `user` WHERE `key`=0x%s",$key), $link) or die('Unable to get a user.');
 	$row = mysql_fetch_array($result);
 	if ($row != NULL)
 		$user = ['id' => $row['id'], 'email' => $row['email'], 'name' => $row['name'], 'rights' => $row['rights'], 'key' => $row['key']];

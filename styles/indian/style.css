@@ -217,7 +217,7 @@ div.dialog .field#buttons_panel {
 div.button {
 	width:60px;
 	height:20px;
-	border:1px solid #AAA;
+	border:1px solid #333;
 	padding-top:2px;
 	cursor:default;
 	float:left;
@@ -307,6 +307,7 @@ h1 {
 	margin-bottom: 20px;
 	height:auto;
 	display:block;
+	clear:both;
 }
 
 .message_list .message_block {
@@ -375,4 +376,21 @@ h1 {
     max-width: 100px;
     height:auto;
     width:90px;
+}
+
+.portion_pointer {
+	width:15px;
+	height:20px;
+	text-align:center;
+	line-height:20px;
+	vertical-align:center;
+	float:left;
+	margin-left:1px;
+	border:1px solid #333;
+}
+
+.portion_selector {
+	clear:both;
+	display:block;
+	height: 30px;
 }

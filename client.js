@@ -19,6 +19,7 @@ Client = function (host)
 			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); //IE6, IE5
 		args.func = funcName;
 		var params = this.serialize(args);
+		console.log("Request: " + params);
 
 		var address = this.host
 		if (method == "GET")
@@ -28,6 +29,7 @@ Client = function (host)
 		{
 			if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
 			{
+				console.log("Response: " + xmlhttp.responseText);
 				var data = eval("("+xmlhttp.responseText+")");
 				if (data.error_code != 0)
 				{

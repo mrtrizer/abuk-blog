@@ -31,14 +31,26 @@ if ($func == 'login')
 	$login = preg_replace('/[^A-Za-z0-9\-]/', '', $args['login']);
 	$passHash = preg_replace('/[^A-Fa-f0-9\-]/', '', $args['pass_hash']);
 
-	$result = mysql_query("SELECT `id`, `key`, `email`, `name` FROM user WHERE id='".$login."' and pass_hash=0x".$passHash, $link) or show_error(3,mysql_error($link));
+	$request = sprintf('
+		SELECT `id`, `key`, `email`, `name` 
+		FROM `user` 
+		WHERE `id`="%s" and `pass_hash`=0x%s',$login,$passHash);
+
+	$result = mysql_query("".$passHash, $link) or show_error(3,mysql_error($link));
 	$row = mysql_fetch_array($result);
 
 	if ($row == NULL)
 		show_error(4,"Wrong user login or password.");
 
 	$key = md5($passHash.$login.time().time());
-	mysql_query("UPDATE user SET `key`=0x".$key." WHERE `id`='".$login."'",$link) or  show_error(5,mysql_error($link));
+	
+	$request = sprintf('
+		UPDATE `user` 
+		SET `key`=0x%s 
+		WHERE `id`=%s',
+		$key,$login);
+	
+	mysql_query($request,$link) or  show_error(5,mysql_error($link));
 
 	echo '{"error_code":0, "key":"'.$key.'"}';
 	exit;
@@ -62,7 +74,13 @@ if ($func == 'savearticle')
 	if (($id == "") || ($key == ""))
 		show_error(2,"Wrong arguments format");
 
-	$result = mysql_query("SELECT `id`,`rights` FROM user WHERE `key`=0x".$key, $link) or show_error(3,mysql_error($link));
+	$request = sprintf('
+		SELECT `id`,`rights` 
+		FROM `user` 
+		WHERE `key`=0x%s',
+		$key);
+		
+	$result = mysql_query($request, $link) or show_error(3,mysql_error($link));
 	$row = mysql_fetch_array($result);
 	
 	if ($row == NULL)
@@ -71,7 +89,13 @@ if ($func == 'savearticle')
 	if ($row['rights'] != 'admin')
 		show_error(667,"You must have administrator rigths to edit this article.");
 		
-	mysql_query("UPDATE article SET `content`='".$content."', `name`='".$name."', `about`='".$about."' WHERE `id`=".$id."",$link) or  show_error(5,mysql_error($link));
+	$request = sprintf('
+		UPDATE `article` 
+		SET `content`="%s", `name`="%s", `about`="%s" 
+		WHERE `id`=%d',
+		$content,$name,$about,$id);
+		
+	mysql_query($request, $link) or  show_error(5,mysql_error($link));
 	
 	echo '{"error_code":0}';
 	exit;
@@ -90,14 +114,77 @@ if ($func == 'addcomment')
 	$text = urlencode(trim($args['text'],'"'));
 	$context = preg_replace('/[^0-9\-]/', '', $args['context']);
 	
-	mysql_query('INSERT INTO message (`name`,`email`,`text`,`context`) VALUES ("'.$name.'","'.$email.'","'.$text.'","'.$context.'")') or  show_error(5,mysql_error($link));
-	$result = mysql_query('SELECT date FROM message WHERE id = '.mysql_insert_id()) or show_error(788,"Can't read a date!");
+	$request = sprintf('
+		INSERT INTO `message` (`name`,`email`,`text`,`context`) 
+		VALUES ("%s","%s","%s","%d")',
+		$name,$email,$text,$context);
+		
+	mysql_query($request) or  show_error(5,mysql_error($link));
+	
+	$request = sprintf('
+		SELECT `date` 
+		FROM `message` 
+		WHERE `id` = %d',
+		mysql_insert_id());
+		
+	$result = mysql_query($request) or show_error(788,"Can't read a date!");
 	
 	$row = mysql_fetch_array($result);
 	
 	$date = $row['date'];
 	
 	echo '{"error_code":0, "email":"'.$email.'", "name":"'.$name.'", "text":"'.$text.'", "date":"'.$date.'"}';
+	exit;
+}
+
+if ($func == 'getcomments')
+{
+	if (!array_key_exists('portion',$args))
+		show_error(1);
+		
+	$portion = preg_replace('/[^0-9\-]/', '', $args['portion']);
+	$context = preg_replace('/[^0-9\-]/', '', $args['context']);
+	
+	$request = sprintf('
+		SELECT COUNT(*) FROM `message` 
+		WHERE `context`=%d',
+		$context);
+	$result = mysql_query($request, $link) or show_error (146,'Unable to get message count');
+	$rowCount = mysql_fetch_array($result)['COUNT(*)'];
+
+	$request = sprintf('
+		SELECT `list_size` 
+		FROM `context` 
+		WHERE `id`=%d',
+		$context);
+	$result = mysql_query($request, $link) or show_error (147,'Ubable to get a context.');
+	$listSize = mysql_fetch_array($result)['list_size'] or show_error (148,'Wrong context.');
+	
+	$portionCount = ceil($rowCount / $listSize);
+
+	$start = $listSize * $portion;
+	$end = $start + $listSize;
+
+	
+	$request = sprintf('
+		SELECT `id`,`name`,`text`,`email`,`date` 
+		FROM `message` 
+		WHERE `context`=%d 
+		ORDER BY date DESC 
+		LIMIT %d,%d',
+		$context,$start,$end);
+	$result = mysql_query($request, $link) or show_error(788,"Can't read a date!");
+	
+	$messages = '[';
+	
+	while ($row = mysql_fetch_array($result))
+	{
+		$messages .= sprintf('{"name":"%s","text":"%s","email":"%s","date":"%s"},',
+				$row['name'],$row['text'],$row['email'],$row['date']);
+	}
+	
+	$messages .= ']';
+	echo sprintf('{"error_code":0, "portion":"%d", "portion_count":"%d", "message_list":%s}',$portion, $portionCount, $messages);
 	exit;
 }
 
