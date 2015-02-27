@@ -6,3 +6,6 @@ $mysql_password = 'tkiller';
 $mysql_host = 'localhost';
 $title = 'ABUKSIGUN';
 $logo = 'data/abuksigun_logo.png';
+
+if (file_exists("config.php"))
+	include_once("config.php");

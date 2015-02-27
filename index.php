@@ -1,6 +1,6 @@
 <?php
 header("Content-Type: text/html; charset=utf-8");
-require_once ('config.php');
+require_once ('default_config.php');
 require_once ('tools.php');
 
 //Page identification

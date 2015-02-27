@@ -15,7 +15,7 @@ else
 if ($args == NULL)
 	show_error(100);
 
-require_once('config.php');
+require_once('default_config.php');
 
 $link = mysql_connect($mysql_host, $mysql_login, $mysql_password)  or show_error(2);
 mysql_set_charset('utf8',$link);
