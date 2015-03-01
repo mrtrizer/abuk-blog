@@ -10,18 +10,40 @@ $id = $args['id'];
 
 if ($id == 0)
 {
-	mysql_query('INSERT INTO context (`list_size`) VALUES (50)') or  die(mysql_error($link));	
+	$request = '
+		INSERT INTO `context` (`list_size`) 
+		VALUES (10)';
+	mysql_query($request, $link) or  die(mysql_error($link));	
 	$name = "New article";
 	$visible = 1;
 	$about = "";
 	$content = "";
-	mysql_query('INSERT INTO article (`name`,`visible`,`about`,`content`,`context`) VALUES ("'.$name.'","'.$visible.'","'.$about.'","'.$content.'","'.mysql_insert_id().'")') or  die(mysql_error($link));	
+	$context = mysql_insert_id();
+	$request = sprintf('
+		INSERT 
+		INTO `article` (`name`,`visible`,`about`,`content`,`context`) 
+		VALUES ("%s","%d","%s","%s","%d")',
+		$name,$visible,$about,$content,$context);
+	mysql_query($request, $link) or  die(mysql_error($link));	
 	$id = mysql_insert_id();
 }
 
-$result = mysql_query("SELECT id,about,name,date,content FROM article WHERE id=".$id,$link) or die('Ubable to get an article.');
+$request = sprintf('
+	SELECT `id`,`about`,`name`,`date`,`content` 
+	FROM `article` 
+	WHERE `id`=%d',
+	$id);
+	
+$result = mysql_query($request, $link) or die('Ubable to get an article.');
+
 $row = mysql_fetch_array($result) or die ('Article with such name was not created!');
-$article = ['id' => $row['id'], 'name' => urldecode($row['name']), 'date' => $row['date'], 'content' => urldecode($row['content']), 'about' => urldecode($row['about'])];
+
+$article = [
+	'id' => $row['id'], 
+	'name' => urldecode($row['name']), 
+	'date' => $row['date'], 
+	'content' => urldecode($row['content']), 
+	'about' => urldecode($row['about'])];
 
 include($style_path.'article_editor.php');
 
