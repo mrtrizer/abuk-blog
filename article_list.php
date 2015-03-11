@@ -15,12 +15,19 @@ function article_url ($id)
 	return 'index.php?page=article&id='.$id;
 }
 
-include($style_path.'article_list.php');
+//include($style_path.'article_list.php');
+$template_path = 'article_list.php';
 
 //*********************************************************************
 //Frontend
 //*********************************************************************
 ?><script>
+function pageListMenuInit()
+{
 	var addButton = document.getElementById("add_button");
 	addButton.style.display = "block";
+}
+
+addInitFunc(pageListMenuInit);
+
 </script>

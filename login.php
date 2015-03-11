@@ -36,7 +36,7 @@ if ($func == 'login')
 		FROM `user` 
 		WHERE `id`="%s" and `pass_hash`=0x%s',$login,$passHash);
 
-	$result = mysql_query("".$passHash, $link) or show_error(3,mysql_error($link));
+	$result = mysql_query($request, $link) or show_error(3,mysql_error($link));
 	$row = mysql_fetch_array($result);
 
 	if ($row == NULL)
@@ -47,7 +47,7 @@ if ($func == 'login')
 	$request = sprintf('
 		UPDATE `user` 
 		SET `key`=0x%s 
-		WHERE `id`=%s',
+		WHERE `id`="%s"',
 		$key,$login);
 	
 	mysql_query($request,$link) or  show_error(5,mysql_error($link));

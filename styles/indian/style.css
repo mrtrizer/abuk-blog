@@ -73,7 +73,8 @@ body {
 	display:block;
 	margin-bottom: 10px;
 	margin-top: 20px;
-	overflow: auto;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 
 .article_header {
@@ -308,6 +309,7 @@ h1 {
 	height:auto;
 	display:block;
 	clear:both;
+	overflow:hide;
 }
 
 .message_list .message_block {

@@ -5,7 +5,7 @@
 $id = $args['id'] or die('Expected an id argument.');
 
 $request = sprintf('
-	SELECT `id`,`name`,`date`,`content`,`context` 
+	SELECT `id`,`name`,`date`,`content`,`context`,`about`
 	FROM article 
 	WHERE `id`=%d',
 	$id);
@@ -19,18 +19,28 @@ $article = [
 	'name' => urldecode($row['name']), 
 	'date' => $row['date'], 
 	'content' => urldecode($row['content']), 
-	'context' => urldecode($row['context'])];
+	'context' => urldecode($row['context']),
+	'about' => urldecode($row['about'])];
 
 $context = $article['context'];
 
-include($style_path.'article.php');
+$description = $article['about'];
+
 include('comments.php');
+$template_path = 'article.php';
 
 //*********************************************************************
 //Frontend
 //*********************************************************************
 ?><script>
+
+function articleMenuInit()
+{
 	var editorButton = document.getElementById("edit_button");
 	editorButton.style.display = "block";
 	editorButton.href = "index.php?page=article_editor&id=<?=$article['id']?>";
+}
+
+addInitFunc(articleMenuInit);
+
 </script>

@@ -3,33 +3,32 @@ header("Content-Type: text/html; charset=utf-8");
 require_once ('default_config.php');
 require_once ('tools.php');
 
-//Page identification
-$pages = [	'main' => 'main.php',
-			'article_list' => 'article_list.php',
-			'about' => 'about.php',
-			'guest_book' => 'guest_book.php',
-			'article' => 'article.php',
-			'article_editor' => 'article_editor.php'];
-			
 $args = $_GET;
 if (!array_key_exists('page',$args))
 	$page_name = 'main';
 else
 	$page_name = $args['page'];
 
-if (!array_key_exists($page_name,$pages))
-{
-	echo 'No pages with a name: '.$page_name;
-	exit;
-}
-
 $style_path = 'styles/'.$style.'/';
-$body_path = $pages[$page_name];
 
 //Login
 $link = mysql_connect($mysql_host, $mysql_login, $mysql_password)  or die("Unable to connect to MySQL");
 mysql_set_charset('utf8',$link);
 $selected = mysql_select_db($mysql_db, $link);
+
+$request = sprintf('
+	SELECT `name`,`file`,`description%s`
+	FROM `pages`
+	WHERE `name`="%s"',
+	$lang,$page_name);
+	
+$result = mysql_query($request, $link) or die('Unable to find page.');
+
+$row = mysql_fetch_array($result)  or die ('No pages with a name: '.$page_name);
+
+$description = $row['description'.$lang];
+
+$page_head_path = $row['file'];
 
 $user = NULL;
 

@@ -6,7 +6,7 @@
 if ($context != 0)
 {
 
-	include($style_path.'comments.php');
+	$comments_template_path = 'comments.php';
 
 //*********************************************************************
 //Frontend
@@ -111,7 +111,12 @@ function onLoadError(errCode,errMsg)
 	alert(errStr);
 }
 
-loadComments(0);
+function initComments()
+{
+		loadComments(0);
+}
+
+addInitFunc(loadComments);
 
 </script>
 

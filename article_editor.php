@@ -45,7 +45,7 @@ $article = [
 	'content' => urldecode($row['content']), 
 	'about' => urldecode($row['about'])];
 
-include($style_path.'article_editor.php');
+$template_path = 'article_editor.php';
 
 //*********************************************************************
 //Frontend
