@@ -37,6 +37,8 @@ $template_path = 'article.php';
 function articleMenuInit()
 {
 	var editorButton = document.getElementById("edit_button");
+	if (!editorButton)
+		return;
 	editorButton.style.display = "block";
 	editorButton.href = "index.php?page=article_editor&id=<?=$article['id']?>";
 }

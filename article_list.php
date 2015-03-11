@@ -25,6 +25,8 @@ $template_path = 'article_list.php';
 function pageListMenuInit()
 {
 	var addButton = document.getElementById("add_button");
+	if (!addButton)
+		return;
 	addButton.style.display = "block";
 }
 
