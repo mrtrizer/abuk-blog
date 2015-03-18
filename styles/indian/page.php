@@ -31,7 +31,7 @@
 		
 	</script>
 </head>
-<body bgproperties="fixed" style="background-color: WhiteSmoke; margin:0px; font-size:14px; font-family:Arial" onload="init()">
+<body style="background-attachment: fixed; background-color: WhiteSmoke; margin:0px; font-size:14px; font-family:Arial" onload="init()">
 	<div id="main_pole">
 		<?php include('header.php'); ?>
 		<div id="middle">
