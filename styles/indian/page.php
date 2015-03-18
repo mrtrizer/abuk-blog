@@ -7,6 +7,11 @@
 	<title><?=$title; ?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="Description" content="<?=$description?>">
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content=http://abuksigun.ru />
+	<meta property="og:title" content="<?=$title; ?>" />
+	<meta property="og:description" content="<?=$description?>" /> 
+	<meta property="og:image" content="<?=$description_image?>" />
 	<link rel="stylesheet" href="<?=$style_path.'style.css';?>" type="text/css" />
 	<link rel="stylesheet" href="xbbcode.css" type="text/css" />
 	<script src="xbbcode.js" type="text/javascript"></script>

@@ -27,6 +27,7 @@ $result = mysql_query($request, $link) or die('Unable to find page.');
 $row = mysql_fetch_array($result)  or die ('No pages with a name: '.$page_name);
 
 $description = $row['description'.$lang];
+$description_image = 'data/abuksigun_logo.png';
 
 $page_head_path = $row['file'];
 

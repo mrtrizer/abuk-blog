@@ -5,7 +5,7 @@
 $id = $args['id'] or die('Expected an id argument.');
 
 $request = sprintf('
-	SELECT `id`,`name`,`date`,`content`,`context`,`about`
+	SELECT `id`,`name`,`date`,`content`,`context`,`about`,`image`
 	FROM article 
 	WHERE `id`=%d',
 	$id);
@@ -19,12 +19,14 @@ $article = [
 	'name' => urldecode($row['name']), 
 	'date' => $row['date'], 
 	'content' => urldecode($row['content']), 
-	'context' => urldecode($row['context']),
-	'about' => urldecode($row['about'])];
+	'context' => $row['context'],
+	'about' => urldecode($row['about']),
+	'image' => $row['image']];
 
 $context = $article['context'];
-
 $description = $article['about'];
+if (strlen($article['image']) > 0)
+	$description_image = $article['image'];
 
 include('comments.php');
 $template_path = 'article.php';
