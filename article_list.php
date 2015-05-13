@@ -10,6 +10,8 @@ $article_list = [];
 while ($row = mysql_fetch_array($result))
 	$article_list[] = ['id' => $row['id'], 'name' => urldecode($row['name']), 'date' => $row['date'], 'image' => $row['image'],  'about' => urldecode($row['about'])];
 
+$article_list = array_reverse($article_list);
+
 function article_url ($id)
 {
 	return 'index.php?page=article&id='.$id;
