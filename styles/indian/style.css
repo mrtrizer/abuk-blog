@@ -77,6 +77,10 @@ body {
 	overflow-x: hidden;
 }
 
+.article_block_hidden {
+	background-color: #EEE;
+}
+
 .article_header {
 	height: auto;
 	margin-bottom:10px;

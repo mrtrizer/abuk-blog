@@ -56,6 +56,93 @@ if ($func == 'login')
 	exit;
 }
 
+if ($func == 'deletearticle')
+{
+	if (!array_key_exists('id',$args) || 
+			!array_key_exists('key',$args))
+		show_error(1);
+		
+	$id = preg_replace('/[^0-9\-]/', '', $args['id']);
+	$key = preg_replace('/[^A-Fa-f0-9\-]/', '', $args['key']);
+	
+	if (($id == "") || ($key == ""))
+		show_error(2,"Wrong arguments format");
+
+	$request = sprintf('
+		SELECT `id`,`rights` 
+		FROM `user` 
+		WHERE `key`=0x%s',
+		$key);
+		
+	$result = mysql_query($request, $link) or show_error(3,mysql_error($link));
+	$row = mysql_fetch_array($result);
+	
+	if ($row == NULL)
+		show_error(666,"Access denied.");
+		
+	if ($row['rights'] != 'admin')
+		show_error(667,"You have to be an administrator to delete this article.");
+		
+	$request = sprintf('
+		DELETE FROM `article` 
+		WHERE `id`=%d',
+		$id);
+		
+	mysql_query($request, $link) or  show_error(5,mysql_error($link));
+	
+	echo '{"error_code":0, "id":'.$id.'}';
+	exit;
+}
+
+if ($func == 'hidearticle')
+{
+	if (!array_key_exists('id',$args) || 
+			!array_key_exists('key',$args))
+		show_error(1);
+		
+	$id = preg_replace('/[^0-9\-]/', '', $args['id']);
+	$key = preg_replace('/[^A-Fa-f0-9\-]/', '', $args['key']);
+	
+	if (($id == "") || ($key == ""))
+		show_error(2,"Wrong arguments format");
+
+	$request = sprintf('
+		SELECT `id`,`rights` 
+		FROM `user` 
+		WHERE `key`=0x%s',
+		$key);
+		
+	$result = mysql_query($request, $link) or show_error(3,mysql_error($link));
+	$row = mysql_fetch_array($result);
+	
+	if ($row == NULL)
+		show_error(666,"Access denied.");
+		
+	if ($row['rights'] != 'admin')
+		show_error(667,"You have to be an administrator to change visibility of this article.");
+		
+	$request = sprintf('
+		SELECT `visible` 
+		FROM `article` 
+		WHERE `id`=%d',
+		$id);
+		
+	$result = mysql_query($request, $link) or  show_error(5,mysql_error($link));
+	
+	$visible = ord(mysql_fetch_array($result)['visible']);	
+		
+	$request = sprintf('
+		UPDATE `article` 
+		SET `visible`=%d
+		WHERE `id`=%d',
+		!$visible,$id);
+		
+	mysql_query($request, $link) or  show_error(5,mysql_error($link));
+	
+	echo '{"error_code":0, "id":'.$id.', "visible":'.($visible == 1?'false':'true').'}';
+	exit;
+}
+
 if ($func == 'savearticle')
 {
 	if (!array_key_exists('id',$args) || 
@@ -91,7 +178,7 @@ if ($func == 'savearticle')
 		show_error(666,"Access denied.");
 		
 	if ($row['rights'] != 'admin')
-		show_error(667,"You must have administrator rigths to edit this article.");
+		show_error(667,"You have to be an administrator to edit this article.");
 		
 	$request = sprintf('
 		UPDATE `article` 
