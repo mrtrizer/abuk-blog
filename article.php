@@ -5,7 +5,7 @@
 $id = $args['id'] or die('Expected an id argument.');
 
 $request = sprintf('
-	SELECT `id`,`name`,`date`,`content`,`context`,`about`,`image`
+	SELECT `id`,`name`,`date`,`content`,`context`,`about`,`image`,`keywords`
 	FROM article 
 	WHERE `id`=%d',
 	$id);
@@ -21,10 +21,12 @@ $article = [
 	'content' => urldecode($row['content']), 
 	'context' => $row['context'],
 	'about' => urldecode($row['about']),
-	'image' => $row['image']];
+	'image' => $row['image'],
+	'keywords' => urldecode($row['keywords'])];
 
 $context = $article['context'];
 $description = $article['about'];
+$keywords = $article['keywords'];
 if (strlen($article['image']) > 0)
 	$description_image = $article['image'];
 

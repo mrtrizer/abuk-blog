@@ -62,7 +62,9 @@ if ($func == 'savearticle')
 			!array_key_exists('content',$args) || 
 			!array_key_exists('key',$args) || 
 			!array_key_exists('name',$args) || 
-			!array_key_exists('about',$args))
+			!array_key_exists('about',$args) || 
+			!array_key_exists('image',$args) || 
+			!array_key_exists('keywords',$args))
 		show_error(1);
 		
 	$id = preg_replace('/[^0-9\-]/', '', $args['id']);
@@ -70,6 +72,8 @@ if ($func == 'savearticle')
 	$key = preg_replace('/[^A-Fa-f0-9\-]/', '', $args['key']);
 	$name = urlencode(trim($args['name'],'"'));
 	$about = urlencode(trim($args['about'],'"'));
+	$image = trim($args['image'],'"');
+	$keywords = urlencode(trim($args['keywords'],'"'));
 	
 	if (($id == "") || ($key == ""))
 		show_error(2,"Wrong arguments format");
@@ -91,9 +95,9 @@ if ($func == 'savearticle')
 		
 	$request = sprintf('
 		UPDATE `article` 
-		SET `content`="%s", `name`="%s", `about`="%s" 
+		SET `content`="%s", `name`="%s", `about`="%s", `image`="%s", `keywords`="%s"
 		WHERE `id`=%d',
-		$content,$name,$about,$id);
+		$content,$name,$about,$image,$keywords,$id);
 		
 	mysql_query($request, $link) or  show_error(5,mysql_error($link));
 	

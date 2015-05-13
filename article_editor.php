@@ -29,7 +29,7 @@ if ($id == 0)
 }
 
 $request = sprintf('
-	SELECT `id`,`about`,`name`,`date`,`content` 
+	SELECT `id`,`about`,`name`,`date`,`content`,`image`,`keywords`
 	FROM `article` 
 	WHERE `id`=%d',
 	$id);
@@ -43,7 +43,10 @@ $article = [
 	'name' => urldecode($row['name']), 
 	'date' => $row['date'], 
 	'content' => urldecode($row['content']), 
-	'about' => urldecode($row['about'])];
+	'about' => urldecode($row['about']),
+	'image' => urldecode($row['image']),
+	'keywords' => urldecode($row['keywords'])
+	];
 
 $template_path = 'article_editor.php';
 
@@ -57,13 +60,17 @@ function saveArticle(id)
 	var content = document.getElementById("editor_textarea").value;
 	var name = document.getElementById("article_name_input").value;
 	var about = document.getElementById("about_textarea").value;
+	var image = document.getElementById("image_input").value;
+	var keywords = document.getElementById("keywords_input").value;
 	client.sendRequest("savearticle", 
 		{
 			id:id, 
 			key:"<?=bin2hex($user['key'])?>", 
 			content:encodeURIComponent(content),
 			about:encodeURIComponent(about),
-			name:encodeURIComponent(name)
+			name:encodeURIComponent(name),
+			image:encodeURIComponent(image),
+			keywords:encodeURIComponent(keywords)
 		},
 		"POST",
 		onSaveSuccess,

@@ -7,6 +7,7 @@
 	<title><?=$title; ?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="Description" content="<?=$description?>">
+	<meta name="Keywords" content="<?=$keywords?>">
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content=http://abuksigun.ru />
 	<meta property="og:title" content="<?=$title; ?>" />
