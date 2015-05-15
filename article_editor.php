@@ -48,6 +48,17 @@ $article = [
 	'keywords' => urldecode($row['keywords'])
 	];
 
+$request = sprintf('
+	SELECT `id`,`name`,`path`,`md5`,`size`,`author`,`date`
+	FROM `file`');
+
+$result = mysql_query($request, $link) or die('Ubable to get a file.');
+
+$fileList = [];
+
+while ($row = mysql_fetch_array($result))
+	$fileList[] = $row;
+
 $template_path = 'article_editor.php';
 
 //*********************************************************************
@@ -89,6 +100,35 @@ function onSaveError(errCode,errMsg)
 	if (errMsg != "")
 		errStr += "\nError message: " + errMsg;
 	alert(errStr);
+}
+
+function insertAtCursor(myField, myValue) {
+    //IE support
+    if (document.selection) {
+        myField.focus();
+        sel = document.selection.createRange();
+        sel.text = myValue;
+    }
+    //MOZILLA and others
+    else if (myField.selectionStart || myField.selectionStart == '0') {
+        var startPos = myField.selectionStart;
+        var endPos = myField.selectionEnd;
+        myField.value = myField.value.substring(0, startPos)
+            + myValue
+            + myField.value.substring(endPos, myField.value.length);
+    } else {
+        myField.value += myValue;
+    }
+}
+
+function insertImage(fileName)
+{
+	insertAtCursor(document.getElementById("editor_textarea"),"[img]../data/images/"+fileName+"[/img]");
+}
+
+function showUploadDialog()
+{
+	
 }
 
 </script>

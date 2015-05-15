@@ -15,4 +15,11 @@
 	<input class="editor_textarea" id="keywords_input" width=95 value="<?=$article['keywords']?>" />
 	<b>Main text:</b>
 	<textarea class="editor_textarea" id="editor_textarea" rows=25 cols=95><?=$article['content']?></textarea>
+	<b>Files:</b><br><br>
+	<div class="controls_block">
+		<?php foreach ($fileList as $file):?>
+			<div class="button color2" onclick="insertImage('<?=$file['path']?>')"><?=$file['name'] ?></div>
+		<?php endforeach?>
+		<div class="button color2" id="upload_button" onclick="showUploadDialog()">Upload</div> 
+	</div>
 </div>
